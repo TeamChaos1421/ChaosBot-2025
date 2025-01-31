@@ -8,15 +8,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.hardware.Pigeon2;
-
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.PathPlannerLogging;
+import com.studica.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,7 +30,7 @@ public class Swerve extends SubsystemBase {
 
     public SwerveDriveOdometry swerveOdometry;
     public SwerveMod[] mSwerveMods;
-    public Pigeon2 gyro;
+    public AHRS gyro;
     public RobotConfig config;
     private Field2d field = new Field2d();
 
@@ -45,9 +43,10 @@ public class Swerve extends SubsystemBase {
           Constants.AutoConstants.moduleConfig,
           Constants.Swerve.trackWidth);
 
-        gyro = new Pigeon2(Constants.Swerve.pigeonID, "rio");
-        gyro.getConfigurator().apply(new Pigeon2Configuration());
-        gyro.setYaw(0);
+        gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+        // gyro = new Pigeon2(Constants.Swerve.pigeonID, "rio");
+        // gyro.getConfigurator().apply(new Pigeon2Configuration());
+        gyro.zeroYaw();
 
         mSwerveMods = new SwerveMod[] {
             new SwerveMod(0, Constants.Swerve.Mod0.constants),
@@ -160,7 +159,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
+        return Rotation2d.fromDegrees(Double.valueOf((gyro.getYaw())));
     }
 
     public void setHeading(Rotation2d heading){
