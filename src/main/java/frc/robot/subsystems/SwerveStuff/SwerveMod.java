@@ -1,5 +1,5 @@
 
-package frc.robot;
+package frc.robot.subsystems.SwerveStuff;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -7,6 +7,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.lib.util.swerveUtil.SwerveModuleConstants;
+import frc.robot.Constants;
+import frc.robot.HardwareConfigs;
+import frc.robot.Robot;
+import frc.robot.Constants.Swerve;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.RelativeEncoder;
