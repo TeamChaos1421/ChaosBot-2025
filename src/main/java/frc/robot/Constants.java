@@ -21,6 +21,8 @@ import frc.lib.util.swerveUtil.COTSNeoSwerveConstants.driveGearRatios;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
+    public static final int climberCanID = 0; //TODO: This must be tuned to specific robot
+
     public static final class Swerve {
         public static final int pigeonID = 0;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-

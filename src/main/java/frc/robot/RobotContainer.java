@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.SwerveStuff.States;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,6 +27,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick codriver = new Joystick(1);
 
    /* Driver Controls */
 	private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -43,9 +45,13 @@ public class RobotContainer {
     private final Trigger forwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kLeftTrigger.value) > 0.6));
     private final Trigger backwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.6));
 
+    /* CoDriver Buttons */
+    private final Trigger climb = new Trigger(() -> (codriver.getRawAxis(XboxController.Axis.kLeftTrigger.value) > 0.2 || codriver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.2));
+
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
     private final Swerve s_Swerve = new Swerve(s_PoseEstimator);
+    private final Climber s_Climber = new Climber();
     //private final Vision s_Vision = new Vision(s_PoseEstimator);
 
     /* AutoChooser */
@@ -63,6 +69,11 @@ public class RobotContainer {
                 () -> dampen.getAsBoolean(),
                 () -> 0 // Dynamic heading placeholder
             )
+        );
+        s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(
+            codriver.getRawAxis(XboxController.Axis.kLeftTrigger.value) -
+            codriver.getRawAxis(XboxController.Axis.kRightTrigger.value)
+            ))
         );
 
         // Configure the button bindings
@@ -87,7 +98,7 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        /* Driver Buttons */
+//////* Driver Buttons *//////
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
     //Heading lock bindings
@@ -103,6 +114,7 @@ public class RobotContainer {
             new InstantCommand(() -> States.driveState = States.DriveStates.DynamicLock)).onFalse(
             new InstantCommand(() -> States.driveState = States.DriveStates.standard)
         );
+//////* CoDriver Buttons *//////
     }
 
     /**
