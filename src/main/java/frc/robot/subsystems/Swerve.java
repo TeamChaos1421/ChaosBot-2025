@@ -190,6 +190,10 @@ public class Swerve extends SubsystemBase {
             Logger.recordOutput("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
             Logger.recordOutput("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
             Logger.recordOutput("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
+
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
         }
     }
 }

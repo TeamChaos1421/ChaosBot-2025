@@ -46,8 +46,7 @@ public class RobotContainer {
     private final Trigger backwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.6));
 
     /* CoDriver Buttons */
-    private final Trigger climb = new Trigger(() -> (codriver.getRawAxis(XboxController.Axis.kLeftTrigger.value) > 0.2 || codriver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.2));
-
+ 
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
     private final Swerve s_Swerve = new Swerve(s_PoseEstimator);
@@ -71,9 +70,8 @@ public class RobotContainer {
             )
         );
         s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(
-            codriver.getRawAxis(XboxController.Axis.kLeftTrigger.value) -
-            codriver.getRawAxis(XboxController.Axis.kRightTrigger.value)
-            ))
+            codriver.getRawAxis(Joystick.kDefaultYChannel)
+            ), s_Climber)
         );
 
         // Configure the button bindings
