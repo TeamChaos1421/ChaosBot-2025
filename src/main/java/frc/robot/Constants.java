@@ -23,6 +23,11 @@ public final class Constants {
 
     public static final int climberCanID = 62;
 
+    public static final class Elevator {
+        public static final int leftElevatorID = 1;
+        public static final int rightElevatorID = 2;
+    }
+
     public static final class Swerve {
         public static final int pigeonID = 0;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
