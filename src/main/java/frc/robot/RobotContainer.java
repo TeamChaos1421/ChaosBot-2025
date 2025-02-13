@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.SwerveStuff.States;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,11 +45,15 @@ public class RobotContainer {
     private final Trigger backwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.6));
 
     /* CoDriver Buttons */
+
+    private final JoystickButton incElevatorState = new JoystickButton(codriver, 0);
+    private final JoystickButton decElevatorState = new JoystickButton(codriver, 1);
  
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
     private final Swerve s_Swerve = new Swerve(s_PoseEstimator);
     private final Climber s_Climber = new Climber();
+    private final Elevator s_Elevator = new Elevator();
     //private final Vision s_Vision = new Vision(s_PoseEstimator);
 
     /* AutoChooser */
@@ -58,6 +61,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        // Default commands
         s_Swerve.setDefaultCommand(
             new SwerveCommand(
                 s_Swerve, 
@@ -69,10 +73,13 @@ public class RobotContainer {
                 () -> 0 // Dynamic heading placeholder
             )
         );
+
         s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(
             codriver.getRawAxis(Joystick.kDefaultYChannel)
             ), s_Climber)
         );
+
+        s_Elevator.setDefaultCommand(new ElevatorCommand(s_Elevator));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -113,6 +120,20 @@ public class RobotContainer {
             new InstantCommand(() -> States.driveState = States.DriveStates.standard)
         );
 //////* CoDriver Buttons *//////
+        incElevatorState.onTrue(
+            new InstantCommand(() -> {
+                if(States.mElevatorState != States.ElevatorStates.values()[States.ElevatorStates.values().length - 1]) {
+                    States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() + 1];
+                }
+            })
+        );
+        decElevatorState.onTrue(
+            new InstantCommand(() -> {
+                if(States.mElevatorState != States.ElevatorStates.values()[0]) {
+                    States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() - 1];
+                }
+            })
+        );
     }
 
     /**
