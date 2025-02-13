@@ -4,6 +4,7 @@ import frc.robot.subsystems.States;
 import frc.robot.Constants;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ElevatorCommand extends Command {
@@ -20,6 +21,7 @@ public class ElevatorCommand extends Command {
     @Override
     public void execute() {
         double motorSpeed = 0.0;
+        SmartDashboard.putString("Elevator State", States.mElevatorState.name());
 
         switch(States.mElevatorState){
             case minimum:

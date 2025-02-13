@@ -46,8 +46,8 @@ public class RobotContainer {
 
     /* CoDriver Buttons */
 
-    private final JoystickButton incElevatorState = new JoystickButton(codriver, 0);
-    private final JoystickButton decElevatorState = new JoystickButton(codriver, 1);
+    private final JoystickButton incElevatorState = new JoystickButton(codriver, 1);
+    private final JoystickButton decElevatorState = new JoystickButton(codriver, 2);
  
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
