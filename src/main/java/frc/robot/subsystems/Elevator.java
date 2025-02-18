@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,6 +26,12 @@ public class Elevator extends SubsystemBase {
     }
 
     public double getPos() {
-        return elevatorEncoder.getPosition().getValueAsDouble();
+        return -mRightElevator.getPosition().getValueAsDouble();
+        // return elevatorEncoder.getPosition().getValueAsDouble();
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Elevator Height", -mRightElevator.getPosition().getValueAsDouble());
     }
 }

@@ -24,16 +24,16 @@ public final class Constants {
     public static final int climberCanID = 62;
 
     public static final class Elevator {
-        public static final int leftElevatorID = 1;
-        public static final int rightElevatorID = 2;
+        public static final int leftElevatorID = 21;
+        public static final int rightElevatorID = 22;
         public static final int elevatorEncoderID = 3;
 
         public static final double minimumPOS = 0;
-        public static final double intakePOS = 1000;
-        public static final double l1POS = 2000;
-        public static final double l2POS = 3000;
-        public static final double l3POS = 4000;
-        public static final double l4POS = 5000;
+        public static final double intakePOS = 10;
+        public static final double l1POS = 50;
+        public static final double l2POS = 60;
+        public static final double l3POS = 70;
+        public static final double l4POS = 80;
 
         public static final double elevatorKP = 0.012;
         public static final double elevatorKI = 0.0;

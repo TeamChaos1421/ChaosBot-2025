@@ -48,6 +48,7 @@ public class RobotContainer {
 
     private final JoystickButton incElevatorState = new JoystickButton(codriver, 1);
     private final JoystickButton decElevatorState = new JoystickButton(codriver, 2);
+    private final JoystickButton toggleElevator = new JoystickButton(codriver, 3);
  
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
@@ -79,7 +80,18 @@ public class RobotContainer {
             ), s_Climber)
         );
 
-        s_Elevator.setDefaultCommand(new ElevatorCommand(s_Elevator));
+        // MANUAL CONTROL
+        // s_Elevator.setDefaultCommand(Commands.run(() -> s_Elevator.setSpeed(
+        //     codriver.getRawAxis(Joystick.kDefaultXChannel)
+        //     ), s_Elevator)
+        // );
+        // ELEVATOR STATES
+        s_Elevator.setDefaultCommand(
+            new ElevatorCommand(
+                s_Elevator, 
+                () -> codriver.getRawAxis(Joystick.kDefaultXChannel)
+            )
+        );
 
         // Configure the button bindings
         configureButtonBindings();
@@ -132,6 +144,11 @@ public class RobotContainer {
                 if(States.mElevatorState != States.ElevatorStates.values()[0]) {
                     States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() - 1];
                 }
+            })
+        );
+        toggleElevator.onTrue(
+            new InstantCommand(() -> {
+                States.mElevatorToggle = !States.mElevatorToggle;
             })
         );
     }

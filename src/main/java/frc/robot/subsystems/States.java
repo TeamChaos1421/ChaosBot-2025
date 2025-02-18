@@ -5,6 +5,7 @@ public class States {
         minimum, intake, l1, l2, l3, l4
     }
 
+    public static Boolean mElevatorToggle = true;
     public static ElevatorStates mElevatorState = ElevatorStates.minimum;
 
     public static enum DriveStates {
