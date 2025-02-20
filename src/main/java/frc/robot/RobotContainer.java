@@ -46,9 +46,16 @@ public class RobotContainer {
 
     /* CoDriver Buttons */
 
-    private final JoystickButton incElevatorState = new JoystickButton(codriver, 1);
-    private final JoystickButton decElevatorState = new JoystickButton(codriver, 2);
-    private final JoystickButton toggleElevator = new JoystickButton(codriver, 3);
+    private final JoystickButton setTargetL1 = new JoystickButton(codriver, 1);
+    private final JoystickButton setTargetL2 = new JoystickButton(codriver, 2);
+    private final JoystickButton setTargetL3 = new JoystickButton(codriver, 3);
+    private final JoystickButton setTargetL4 = new JoystickButton(codriver, 4);
+    private final JoystickButton setTargetIntake = new JoystickButton(codriver, 5);
+    private final JoystickButton toggleElevator = new JoystickButton(codriver, 6);
+
+    // private final JoystickButton incElevatorState = new JoystickButton(codriver, 1);
+    // private final JoystickButton decElevatorState = new JoystickButton(codriver, 2);
+    // private final JoystickButton toggleElevator = new JoystickButton(codriver, 3);
  
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
@@ -76,7 +83,7 @@ public class RobotContainer {
         );
 
         s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(
-            codriver.getRawAxis(Joystick.kDefaultYChannel)
+            -codriver.getRawAxis(Joystick.kDefaultYChannel)
             ), s_Climber)
         );
 
@@ -89,7 +96,7 @@ public class RobotContainer {
         s_Elevator.setDefaultCommand(
             new ElevatorCommand(
                 s_Elevator, 
-                () -> codriver.getRawAxis(Joystick.kDefaultXChannel)
+                () -> -codriver.getRawAxis(Joystick.kDefaultXChannel)
             )
         );
 
@@ -132,20 +139,25 @@ public class RobotContainer {
             new InstantCommand(() -> States.driveState = States.DriveStates.standard)
         );
 //////* CoDriver Buttons *//////
-        incElevatorState.onTrue(
-            new InstantCommand(() -> {
-                if(States.mElevatorState != States.ElevatorStates.values()[States.ElevatorStates.values().length - 1]) {
-                    States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() + 1];
-                }
-            })
-        );
-        decElevatorState.onTrue(
-            new InstantCommand(() -> {
-                if(States.mElevatorState != States.ElevatorStates.values()[0]) {
-                    States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() - 1];
-                }
-            })
-        );
+        // incElevatorState.onTrue(
+        //     new InstantCommand(() -> {
+        //         if(States.mElevatorState != States.ElevatorStates.values()[States.ElevatorStates.values().length - 1]) {
+        //             States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() + 1];
+        //         }
+        //     })
+        // );
+        // decElevatorState.onTrue(
+        //     new InstantCommand(() -> {
+        //         if(States.mElevatorState != States.ElevatorStates.values()[0]) {
+        //             States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() - 1];
+        //         }
+        //     })
+        // );
+        setTargetL1.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l1;}));
+        setTargetL2.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l2;}));
+        setTargetL3.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l3;}));
+        setTargetL4.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l4;}));
+        setTargetIntake.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.intake;}));
         toggleElevator.onTrue(
             new InstantCommand(() -> {
                 States.mElevatorToggle = !States.mElevatorToggle;

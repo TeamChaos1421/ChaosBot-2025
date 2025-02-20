@@ -28,14 +28,14 @@ public final class Constants {
         public static final int rightElevatorID = 22;
         public static final int elevatorEncoderID = 3;
 
-        public static final double minimumPOS = 0;
+        public static final double minimumPOS = -1;
         public static final double intakePOS = 10;
         public static final double l1POS = 50;
         public static final double l2POS = 60;
         public static final double l3POS = 70;
         public static final double l4POS = 80;
 
-        public static final double elevatorKP = 0.012;
+        public static final double elevatorKP = 0.05;
         public static final double elevatorKI = 0.0;
         public static final double elevatorKD = 0.0;
     }
@@ -47,8 +47,8 @@ public final class Constants {
         public static final COTSNeoSwerveConstants chosenModule =  COTSNeoSwerveConstants.SDSMK4i(driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(28); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(28); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(24.5);
+        public static final double wheelBase = Units.inchesToMeters(24.25);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         public static final double driveRevToMeters =  wheelCircumference / (chosenModule.driveGearRatio);
