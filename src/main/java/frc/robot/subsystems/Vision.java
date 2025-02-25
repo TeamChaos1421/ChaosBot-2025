@@ -16,7 +16,8 @@ public class Vision extends SubsystemBase {
 
     public Vision(PoseEstimator s_PoseEstimator) {
         this.s_PoseEstimator = s_PoseEstimator;
-        leftLL = new Limelight("LL");
+        leftLL = new Limelight("left");
+        leftLL = new Limelight("right");
     }
 
     public boolean rightHasTarget(){

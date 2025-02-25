@@ -22,6 +22,13 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
 
     public static final int climberCanID = 62;
+   
+    public static final class CoralIntake {
+        public static final int coralCanID = 50; 
+        public static final int kPCMCANId = 1;
+        public static final int kDumpForward = 0;
+        public static final int kDumpReverse = 1;
+    }
 
     public static final class Elevator {
         public static final int leftElevatorID = 21;

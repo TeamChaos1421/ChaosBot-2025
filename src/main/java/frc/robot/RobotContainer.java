@@ -62,7 +62,8 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve(s_PoseEstimator);
     private final Climber s_Climber = new Climber();
     private final Elevator s_Elevator = new Elevator();
-    //private final Vision s_Vision = new Vision(s_PoseEstimator);
+    private final Vision s_Vision = new Vision(s_PoseEstimator);
+    private final CoralIntake s_CoralIntake = new CoralIntake();
 
     /* AutoChooser */
     private final SendableChooser<Command> autoChooser;
@@ -83,22 +84,25 @@ public class RobotContainer {
         );
 
         s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(
-            -codriver.getRawAxis(Joystick.kDefaultYChannel)
+            (codriver.getRawButton(6) ? 1.0 : 0.0) - (codriver.getRawButton(7) ? 1.0 : 0.0)
             ), s_Climber)
         );
 
-        // MANUAL CONTROL
-        // s_Elevator.setDefaultCommand(Commands.run(() -> s_Elevator.setSpeed(
-        //     codriver.getRawAxis(Joystick.kDefaultXChannel)
-        //     ), s_Elevator)
-        // );
         // ELEVATOR STATES
         s_Elevator.setDefaultCommand(
             new ElevatorCommand(
                 s_Elevator, 
-                () -> -codriver.getRawAxis(Joystick.kDefaultXChannel)
+                () -> -codriver.getRawAxis(Joystick.kDefaultYChannel)
             )
         );
+
+        s_CoralIntake.setDefaultCommand(
+            new CoralCommand(
+                s_CoralIntake,
+                () -> codriver.getRawAxis(Joystick.kDefaultXChannel)
+            )
+        );
+
 
         // Configure the button bindings
         configureButtonBindings();
