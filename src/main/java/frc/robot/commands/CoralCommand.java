@@ -21,26 +21,21 @@ public class CoralCommand extends Command {
     public void execute() {
         s_CoralIntake.setSpeed(intakeSpeed.getAsDouble());
 
-        if(!States.mElevatorToggle) {
-            switch(States.mElevatorState){
-                case minimum:
-                    s_CoralIntake.setAngle(Value.kForward);
-                    break;
-                case intake:
-                    s_CoralIntake.setAngle(Value.kForward);
-                    break;
-                case l1:
-                    s_CoralIntake.setAngle(Value.kReverse);
-                    break;
-                case l2:
-                    s_CoralIntake.setAngle(Value.kReverse);
-                    break;
-                case l3:
-                    s_CoralIntake.setAngle(Value.kReverse);
-                    break;
-                case l4:
-                    s_CoralIntake.setAngle(Value.kReverse);
-            }
+        switch(States.mElevatorState){
+            case intake:
+                s_CoralIntake.setAngle(Value.kForward);
+                break;
+            case l1:
+                s_CoralIntake.setAngle(Value.kReverse);
+                break;
+            case l2:
+                s_CoralIntake.setAngle(Value.kReverse);
+                break;
+            case l3:
+                s_CoralIntake.setAngle(Value.kReverse);
+                break;
+            case l4:
+                s_CoralIntake.setAngle(Value.kReverse);
         }
     }
 }

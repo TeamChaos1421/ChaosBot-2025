@@ -52,6 +52,8 @@ public class RobotContainer {
     private final JoystickButton setTargetL4 = new JoystickButton(codriver, 4);
     private final JoystickButton setTargetIntake = new JoystickButton(codriver, 5);
     private final JoystickButton toggleElevator = new JoystickButton(codriver, 6);
+    private final JoystickButton climberDown = new JoystickButton(codriver, 9);
+    private final JoystickButton climberUp = new JoystickButton(codriver, 10);
 
     // private final JoystickButton incElevatorState = new JoystickButton(codriver, 1);
     // private final JoystickButton decElevatorState = new JoystickButton(codriver, 2);
@@ -64,12 +66,15 @@ public class RobotContainer {
     private final Elevator s_Elevator = new Elevator();
     private final Vision s_Vision = new Vision(s_PoseEstimator);
     private final CoralIntake s_CoralIntake = new CoralIntake();
+    private final Pneumatics s_Pneumatics = new Pneumatics();
 
     /* AutoChooser */
     private final SendableChooser<Command> autoChooser;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        s_Pneumatics.Init();
+
         // Default commands
         s_Swerve.setDefaultCommand(
             new SwerveCommand(
@@ -83,33 +88,29 @@ public class RobotContainer {
             )
         );
 
-        s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(
-            (codriver.getRawButton(6) ? 1.0 : 0.0) - (codriver.getRawButton(7) ? 1.0 : 0.0)
-            ), s_Climber)
-        );
+        s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(0), s_Climber));
 
         // ELEVATOR STATES
         s_Elevator.setDefaultCommand(
             new ElevatorCommand(
                 s_Elevator, 
-                () -> -codriver.getRawAxis(Joystick.kDefaultYChannel)
+                () -> codriver.getRawAxis(Joystick.kDefaultYChannel)
             )
         );
 
         s_CoralIntake.setDefaultCommand(
             new CoralCommand(
                 s_CoralIntake,
-                () -> codriver.getRawAxis(Joystick.kDefaultXChannel)
+                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.9) + 0.1
             )
         );
-
 
         // Configure the button bindings
         configureButtonBindings();
 
 
         //Pathplanner commands - templates
-        NamedCommands.registerCommand("marker1", Commands.print("Passed marker 1"));
+        NamedCommands.registerCommand("SetL1", Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.l1));
         NamedCommands.registerCommand("marker2", Commands.print("Passed marker 2"));
         NamedCommands.registerCommand("print hello", Commands.print("hello"));
     
@@ -165,6 +166,16 @@ public class RobotContainer {
         toggleElevator.onTrue(
             new InstantCommand(() -> {
                 States.mElevatorToggle = !States.mElevatorToggle;
+            })
+        );
+        climberDown.whileTrue(
+            new InstantCommand(() -> {
+                s_Climber.setSpeed(-0.5);
+            })
+        );
+        climberUp.whileTrue(
+            new InstantCommand(() -> {
+                s_Climber.setSpeed(0.5);
             })
         );
     }

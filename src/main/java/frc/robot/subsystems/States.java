@@ -2,11 +2,11 @@ package frc.robot.subsystems;
 
 public class States {
     public static enum ElevatorStates {
-        minimum, intake, l1, l2, l3, l4
+        intake, l1, l2, l3, l4
     }
 
     public static Boolean mElevatorToggle = true;
-    public static ElevatorStates mElevatorState = ElevatorStates.minimum;
+    public static ElevatorStates mElevatorState = ElevatorStates.intake;
 
     public static enum DriveStates {
         standard, leftHold, rightHold, forwardHold, backwardHold, DynamicLock

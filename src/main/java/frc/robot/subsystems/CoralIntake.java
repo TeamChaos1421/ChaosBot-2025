@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -11,23 +10,17 @@ import frc.robot.Constants;
 
 public class CoralIntake extends SubsystemBase {
     private SparkMax mCoralMotor;
-    private Compressor mCompressor;
     private DoubleSolenoid mSolenoid;
 
     public CoralIntake() {
         mCoralMotor = new SparkMax(Constants.CoralIntake.coralCanID, SparkMax.MotorType.kBrushed);
-        mCompressor = new Compressor(
-            Constants.CoralIntake.kPCMCANId, 
-            PneumaticsModuleType.CTREPCM
-        );
         mSolenoid = new DoubleSolenoid(
-            Constants.CoralIntake.kPCMCANId,
+            Constants.kPCMCANId,
             PneumaticsModuleType.CTREPCM,
             Constants.CoralIntake.kDumpForward, 
             Constants.CoralIntake.kDumpReverse
         );
 
-        mCompressor.enableDigital();
         mSolenoid.set(Value.kForward);
     }
 

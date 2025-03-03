@@ -22,10 +22,11 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
 
     public static final int climberCanID = 62;
+
+    public static final int kPCMCANId = 1;
    
     public static final class CoralIntake {
-        public static final int coralCanID = 50; 
-        public static final int kPCMCANId = 1;
+        public static final int coralCanID = 53; 
         public static final int kDumpForward = 0;
         public static final int kDumpReverse = 1;
     }
@@ -35,15 +36,14 @@ public final class Constants {
         public static final int rightElevatorID = 22;
         public static final int elevatorEncoderID = 3;
 
-        public static final double minimumPOS = -1;
-        public static final double intakePOS = 10;
-        public static final double l1POS = 50;
-        public static final double l2POS = 60;
-        public static final double l3POS = 70;
-        public static final double l4POS = 80;
+        public static final double intakePOS = 0;
+        public static final double l1POS = 0;
+        public static final double l2POS = 11;
+        public static final double l3POS = 35;
+        public static final double l4POS = 72;
 
-        public static final double elevatorKP = 0.05;
-        public static final double elevatorKI = 0.0;
+        public static final double elevatorKP = 0.035;
+        public static final double elevatorKI = 0.005;
         public static final double elevatorKD = 0.0;
     }
 

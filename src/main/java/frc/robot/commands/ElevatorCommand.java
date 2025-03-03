@@ -31,14 +31,19 @@ public class ElevatorCommand extends Command {
             motorSpeed = manualSpeed.getAsDouble() * 0.25;
         } else {
             switch(States.mElevatorState){
-                case minimum:
-                    motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.minimumPOS);
-                    break;
                 case intake:
-                    motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.intakePOS);
+                    if (s_Elevator.getPos() <= 0) {
+                        motorSpeed = 0;
+                    } else {
+                        motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.intakePOS);
+                    }
                     break;
                 case l1:
-                    motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.l1POS);
+                    if (s_Elevator.getPos() <= 0) {
+                        motorSpeed = 0;
+                    } else {
+                        motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.l1POS);
+                    }
                     break;
                 case l2:
                     motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.l2POS);
