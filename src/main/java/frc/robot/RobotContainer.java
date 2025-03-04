@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -110,9 +111,13 @@ public class RobotContainer {
 
 
         //Pathplanner commands - templates
-        NamedCommands.registerCommand("SetL1", Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.l1));
-        NamedCommands.registerCommand("marker2", Commands.print("Passed marker 2"));
-        NamedCommands.registerCommand("print hello", Commands.print("hello"));
+        new EventTrigger("intake coral").whileTrue(s_CoralIntake.run(() -> s_CoralIntake.setSpeed(0.7)));
+        new EventTrigger("outtake coral").whileTrue(s_CoralIntake.run(() -> s_CoralIntake.setSpeed(-0.5)));
+        new EventTrigger("set intake").onTrue(Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.intake));
+        new EventTrigger("set l1").onTrue(Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.l1));
+        new EventTrigger("set l2").onTrue(Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.l2));
+        new EventTrigger("set l3").onTrue(Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.l3));
+        new EventTrigger("set l4").onTrue(Commands.runOnce(() -> States.mElevatorState = States.ElevatorStates.l4));
     
         
         //Auto chooser
