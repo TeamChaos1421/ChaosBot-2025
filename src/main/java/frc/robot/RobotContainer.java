@@ -102,7 +102,7 @@ public class RobotContainer {
         s_CoralIntake.setDefaultCommand(
             new CoralCommand(
                 s_CoralIntake,
-                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.9) + 0.1
+                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.5) + 0.1
             )
         );
 
