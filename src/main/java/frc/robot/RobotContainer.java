@@ -67,6 +67,7 @@ public class RobotContainer {
     private final Elevator s_Elevator = new Elevator();
     private final Vision s_Vision = new Vision(s_PoseEstimator);
     private final CoralIntake s_CoralIntake = new CoralIntake();
+    private final AlgaeIntake s_AlgaeIntake = new AlgaeIntake();
     private final Pneumatics s_Pneumatics = new Pneumatics();
 
     /* AutoChooser */
@@ -102,6 +103,13 @@ public class RobotContainer {
         s_CoralIntake.setDefaultCommand(
             new CoralCommand(
                 s_CoralIntake,
+                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.5) + 0.1
+            )
+        );
+
+        s_AlgaeIntake.setDefaultCommand(
+            new AlgaeCommand(
+                s_AlgaeIntake,
                 () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.5) + 0.1
             )
         );

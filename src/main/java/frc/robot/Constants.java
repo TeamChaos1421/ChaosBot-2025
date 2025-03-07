@@ -31,6 +31,12 @@ public final class Constants {
         public static final int kDumpReverse = 1;
     }
 
+    public static final class AlgaeIntake {
+        public static final int algaeIntakeCanID = 70; 
+        public static final int kDumpForward = 2;
+        public static final int kDumpReverse = 3;
+    }
+
     public static final class Elevator {
         public static final int leftElevatorID = 21;
         public static final int rightElevatorID = 22;
