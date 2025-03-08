@@ -110,7 +110,7 @@ public class RobotContainer {
         s_AlgaeIntake.setDefaultCommand(
             new AlgaeCommand(
                 s_AlgaeIntake,
-                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.5) + 0.1
+                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.7) + 0.2
             )
         );
 

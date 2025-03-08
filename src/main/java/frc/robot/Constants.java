@@ -32,7 +32,7 @@ public final class Constants {
     }
 
     public static final class AlgaeIntake {
-        public static final int algaeIntakeCanID = 70; 
+        public static final int algaeIntakeCanID = 50; 
         public static final int kDumpForward = 2;
         public static final int kDumpReverse = 3;
     }
