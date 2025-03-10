@@ -7,6 +7,8 @@ import com.pathplanner.lib.events.EventTrigger;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +30,7 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick codriver = new Joystick(1);
+    private final Joystick buttonPanel = new Joystick(2);
 
    /* Driver Controls */
 	private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -45,20 +48,24 @@ public class RobotContainer {
     private final Trigger forwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kLeftTrigger.value) > 0.6));
     private final Trigger backwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.6));
 
-    /* CoDriver Buttons */
+    /* CoDriver Xbox Controller */
+    private final int intakeCoral = XboxController.Button.kA.value;
+    private final int outtakeCoral = XboxController.Button.kB.value;
+    private final int intakeAlgae = XboxController.Button.kX.value;
+    private final int outtakeAlgae = XboxController.Button.kY.value;
 
-    private final JoystickButton setTargetL1 = new JoystickButton(codriver, 1);
-    private final JoystickButton setTargetL2 = new JoystickButton(codriver, 2);
-    private final JoystickButton setTargetL3 = new JoystickButton(codriver, 3);
-    private final JoystickButton setTargetL4 = new JoystickButton(codriver, 4);
-    private final JoystickButton setTargetIntake = new JoystickButton(codriver, 5);
-    private final JoystickButton toggleElevator = new JoystickButton(codriver, 6);
-    private final JoystickButton climberDown = new JoystickButton(codriver, 9);
-    private final JoystickButton climberUp = new JoystickButton(codriver, 10);
-
-    // private final JoystickButton incElevatorState = new JoystickButton(codriver, 1);
-    // private final JoystickButton decElevatorState = new JoystickButton(codriver, 2);
-    // private final JoystickButton toggleElevator = new JoystickButton(codriver, 3);
+    private final Trigger raiseAlgae = new Trigger(() -> (codriver.getPOV() == 0));
+    private final Trigger lowerAlgae = new Trigger(() -> (codriver.getPOV() == 180));
+    
+    /* CoDriver Button Panel */
+    private final JoystickButton setTargetL1 = new JoystickButton(buttonPanel, 1);
+    private final JoystickButton setTargetL2 = new JoystickButton(buttonPanel, 2);
+    private final JoystickButton setTargetAL = new JoystickButton(buttonPanel, 7);
+    private final JoystickButton setTargetL3 = new JoystickButton(buttonPanel, 3);
+    private final JoystickButton setTargetAH = new JoystickButton(buttonPanel, 8);
+    private final JoystickButton setTargetL4 = new JoystickButton(buttonPanel, 4);
+    private final JoystickButton setTargetIntake = new JoystickButton(buttonPanel, 5);
+    private final JoystickButton toggleElevator = new JoystickButton(buttonPanel, 6);
  
     /* Subsystems */
     private final PoseEstimator s_PoseEstimator = new PoseEstimator();
@@ -96,23 +103,29 @@ public class RobotContainer {
         s_Elevator.setDefaultCommand(
             new ElevatorCommand(
                 s_Elevator, 
-                () -> codriver.getRawAxis(Joystick.kDefaultYChannel)
+                () -> (codriver.getRawAxis(XboxController.Axis.kRightTrigger.value) - codriver.getRawAxis(XboxController.Axis.kLeftTrigger.value))
             )
         );
 
         s_CoralIntake.setDefaultCommand(
             new CoralCommand(
                 s_CoralIntake,
-                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.5) + 0.1
+                () -> codriver.getRawButton(intakeCoral),
+                () -> codriver.getRawButton(outtakeCoral)
             )
         );
 
         s_AlgaeIntake.setDefaultCommand(
             new AlgaeCommand(
                 s_AlgaeIntake,
-                () -> (codriver.getRawAxis(Joystick.kDefaultXChannel) * 0.7) + 0.2
+                () -> codriver.getRawButton(intakeAlgae),
+                () -> codriver.getRawButton(outtakeAlgae)
             )
         );
+
+        s_Climber.setDefaultCommand(Commands.run(
+            () -> s_Climber.setSpeed(buttonPanel.getRawAxis(Joystick.kDefaultYChannel))
+        ));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -157,23 +170,17 @@ public class RobotContainer {
             new InstantCommand(() -> States.driveState = States.DriveStates.standard)
         );
 //////* CoDriver Buttons *//////
-        // incElevatorState.onTrue(
-        //     new InstantCommand(() -> {
-        //         if(States.mElevatorState != States.ElevatorStates.values()[States.ElevatorStates.values().length - 1]) {
-        //             States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() + 1];
-        //         }
-        //     })
-        // );
-        // decElevatorState.onTrue(
-        //     new InstantCommand(() -> {
-        //         if(States.mElevatorState != States.ElevatorStates.values()[0]) {
-        //             States.mElevatorState = States.ElevatorStates.values()[States.mElevatorState.ordinal() - 1];
-        //         }
-        //     })
-        // );
         setTargetL1.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l1;}));
         setTargetL2.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l2;}));
+        setTargetAL.onTrue(new InstantCommand(() -> {
+            States.mElevatorState = States.ElevatorStates.aL;
+            s_AlgaeIntake.setAngle(Value.kForward);
+        }));
         setTargetL3.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l3;}));
+        setTargetAH.onTrue(new InstantCommand(() -> {
+            States.mElevatorState = States.ElevatorStates.aH;
+            s_AlgaeIntake.setAngle(Value.kForward);
+        }));
         setTargetL4.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l4;}));
         setTargetIntake.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.intake;}));
         toggleElevator.onTrue(
@@ -181,16 +188,8 @@ public class RobotContainer {
                 States.mElevatorToggle = !States.mElevatorToggle;
             })
         );
-        climberDown.whileTrue(
-            new InstantCommand(() -> {
-                s_Climber.setSpeed(-0.5);
-            })
-        );
-        climberUp.whileTrue(
-            new InstantCommand(() -> {
-                s_Climber.setSpeed(0.5);
-            })
-        );
+        raiseAlgae.onTrue(new InstantCommand(() -> s_AlgaeIntake.setAngle(Value.kReverse)));
+        lowerAlgae.onTrue(new InstantCommand(() -> s_AlgaeIntake.setAngle(Value.kForward)));
     }
 
     /**

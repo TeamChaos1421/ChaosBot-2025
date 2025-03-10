@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 public class States {
     public static enum ElevatorStates {
-        intake, l1, l2, l3, l4
+        intake, l1, l2, aL, l3, aH, l4
     }
 
     public static Boolean mElevatorToggle = true;

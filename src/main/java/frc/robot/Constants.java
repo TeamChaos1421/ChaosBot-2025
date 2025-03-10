@@ -45,7 +45,9 @@ public final class Constants {
         public static final double intakePOS = 0;
         public static final double l1POS = 0;
         public static final double l2POS = 11;
+        public static final double aLPOS = 20;
         public static final double l3POS = 35;
+        public static final double aHPOS = 45;
         public static final double l4POS = 72;
 
         public static final double elevatorKP = 0.035;
