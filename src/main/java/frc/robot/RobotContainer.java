@@ -1,14 +1,12 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -156,7 +154,7 @@ public class RobotContainer {
 
         alignLeft.whileTrue(new AprilAlign(s_Swerve, "right"));
         alignRight.whileTrue(new AprilAlign(s_Swerve, "left"));
-        
+
 //////* CoDriver Buttons *//////
         setTargetL1.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l1;}));
         setTargetL2.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l2;}));
