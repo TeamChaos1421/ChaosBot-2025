@@ -43,10 +43,8 @@ public class RobotContainer {
 
     private final JoystickButton dampen = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
-    private final JoystickButton DynamicLock = new JoystickButton(driver, XboxController.Button.kX.value);
-
-    private final Trigger forwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kLeftTrigger.value) > 0.6));
-    private final Trigger backwardHold = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.6));
+    private final Trigger alignLeft = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kLeftTrigger.value) > 0.6));
+    private final Trigger alignRight = new Trigger(() -> (driver.getRawAxis(XboxController.Axis.kRightTrigger.value) > 0.6));
 
     /* CoDriver Xbox Controller */
     private final int intakeCoral = XboxController.Button.kA.value;
@@ -156,19 +154,9 @@ public class RobotContainer {
 //////* Driver Buttons *//////
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
-    //Heading lock bindings
-        forwardHold.onTrue(
-            new InstantCommand(() -> States.driveState = States.DriveStates.forwardHold)).onFalse(
-            new InstantCommand(() -> States.driveState = States.DriveStates.standard)
-        );
-        backwardHold.onTrue(
-            new InstantCommand(() -> States.driveState = States.DriveStates.backwardHold)).onFalse(
-            new InstantCommand(() -> States.driveState = States.DriveStates.standard)
-        );
-        DynamicLock.onTrue(
-            new InstantCommand(() -> States.driveState = States.DriveStates.DynamicLock)).onFalse(
-            new InstantCommand(() -> States.driveState = States.DriveStates.standard)
-        );
+        alignLeft.whileTrue(new AprilAlign(s_Swerve, "right"));
+        alignRight.whileTrue(new AprilAlign(s_Swerve, "left"));
+        
 //////* CoDriver Buttons *//////
         setTargetL1.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l1;}));
         setTargetL2.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l2;}));
