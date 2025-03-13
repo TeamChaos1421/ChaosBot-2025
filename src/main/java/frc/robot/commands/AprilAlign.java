@@ -17,9 +17,9 @@ public class AprilAlign extends Command {
     public String llName; 
     
 
-    public AprilAlign(Swerve s_Swerve, String llName) {
+    public AprilAlign(Swerve s_Swerve, String target) {
         this.s_Swerve = s_Swerve;
-        this.llName = "limelight-" + llName;
+        this.llName = "limelight-" + target;
         addRequirements(s_Swerve);
 
         translationController = new PIDController(Constants.Swerve.HeadingKP, Constants.Swerve.HeadingKI, Constants.Swerve.HeadingKD );

@@ -22,11 +22,11 @@ public class CoralCommand extends Command {
     @Override
     public void execute() {
         if (intakeSup.getAsBoolean()) {
-            s_CoralIntake.setSpeed(-1);
+            s_CoralIntake.setSpeed(1);
         } else if (outtakeSup.getAsBoolean()) {
-            s_CoralIntake.setSpeed(0.5);
+            s_CoralIntake.setSpeed(-0.5);
         } else {
-            s_CoralIntake.setSpeed(-0.1);
+            s_CoralIntake.setSpeed(0.1);
         }
 
         switch(States.mElevatorState){

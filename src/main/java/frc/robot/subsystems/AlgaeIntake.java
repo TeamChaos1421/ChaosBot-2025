@@ -21,7 +21,7 @@ public class AlgaeIntake extends SubsystemBase {
             Constants.AlgaeIntake.kDumpReverse
         );
 
-        mSolenoid.set(Value.kReverse);
+        mSolenoid.set(Value.kForward);
     }
 
     public void setAngle(Value newValue) {

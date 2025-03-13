@@ -28,7 +28,7 @@ public class ElevatorCommand extends Command {
         SmartDashboard.putString("Elevator State", States.mElevatorState.name());
 
         if(States.mElevatorToggle) {
-            motorSpeed = manualSpeed.getAsDouble() * 0.25;
+            motorSpeed = manualSpeed.getAsDouble() * 0.25 + 0.04;
         } else {
             switch(States.mElevatorState){
                 case intake:
@@ -48,8 +48,14 @@ public class ElevatorCommand extends Command {
                 case l2:
                     motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.l2POS);
                     break;
+                case aL:
+                    motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.aLPOS);
+                    break;
                 case l3:
                     motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.l3POS);
+                    break;
+                case aH:
+                    motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.aHPOS);
                     break;
                 case l4:
                     motorSpeed = elevatorController.calculate(s_Elevator.getPos(), Constants.Elevator.l4POS);

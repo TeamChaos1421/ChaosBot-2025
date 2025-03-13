@@ -93,8 +93,6 @@ public class RobotContainer {
             )
         );
 
-        s_Climber.setDefaultCommand(Commands.run(() -> s_Climber.setSpeed(0), s_Climber));
-
         // ELEVATOR STATES
         s_Elevator.setDefaultCommand(
             new ElevatorCommand(
@@ -120,7 +118,8 @@ public class RobotContainer {
         );
 
         s_Climber.setDefaultCommand(Commands.run(
-            () -> s_Climber.setSpeed(buttonPanel.getRawAxis(Joystick.kDefaultYChannel))
+            () -> s_Climber.setSpeed(-buttonPanel.getRawAxis(Joystick.kDefaultYChannel)),
+            s_Climber
         ));
 
         // Configure the button bindings
@@ -160,12 +159,12 @@ public class RobotContainer {
         setTargetL2.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l2;}));
         setTargetAL.onTrue(new InstantCommand(() -> {
             States.mElevatorState = States.ElevatorStates.aL;
-            s_AlgaeIntake.setAngle(Value.kForward);
+            s_AlgaeIntake.setAngle(Value.kReverse);
         }));
         setTargetL3.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l3;}));
         setTargetAH.onTrue(new InstantCommand(() -> {
             States.mElevatorState = States.ElevatorStates.aH;
-            s_AlgaeIntake.setAngle(Value.kForward);
+            s_AlgaeIntake.setAngle(Value.kReverse);
         }));
         setTargetL4.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.l4;}));
         setTargetIntake.onTrue(new InstantCommand(() -> {States.mElevatorState = States.ElevatorStates.intake;}));
@@ -174,8 +173,8 @@ public class RobotContainer {
                 States.mElevatorToggle = !States.mElevatorToggle;
             })
         );
-        raiseAlgae.onTrue(new InstantCommand(() -> s_AlgaeIntake.setAngle(Value.kReverse)));
-        lowerAlgae.onTrue(new InstantCommand(() -> s_AlgaeIntake.setAngle(Value.kForward)));
+        raiseAlgae.onTrue(new InstantCommand(() -> s_AlgaeIntake.setAngle(Value.kForward)));
+        lowerAlgae.onTrue(new InstantCommand(() -> s_AlgaeIntake.setAngle(Value.kReverse)));
     }
 
     /**
