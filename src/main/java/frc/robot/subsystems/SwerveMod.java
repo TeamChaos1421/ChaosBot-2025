@@ -1,12 +1,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.lib.util.swerveUtil.SwerveModuleConstants;
+import frc.lib.util.swerveUtil.CTREModuleState;
 import frc.robot.Constants;
 import frc.robot.HardwareConfigs;
 import frc.robot.Robot;
@@ -38,8 +38,6 @@ public class SwerveMod{
     private RelativeEncoder relDriveEncoder;
 
     private CANcoder angleEncoder;
-
-    private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
     public SwerveMod(int moduleNumber, SwerveModuleConstants moduleConstants)
     {
@@ -75,8 +73,7 @@ public class SwerveMod{
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
          
-        desiredState.optimize(getState().angle);
-        desiredState.cosineScale(getState().angle);
+        desiredState = CTREModuleState.optimize(desiredState, getState().angle); 
         setAngle(desiredState);
         setSpeed(desiredState, isOpenLoop);
 

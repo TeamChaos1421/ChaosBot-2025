@@ -180,20 +180,13 @@ public class Swerve extends SubsystemBase {
         s_PoseEstimator.updateSwerve(getGyroYaw(), getModulePositions());
         // field.setRobotPose(getPose());
 
-        Logger.recordOutput("Mystates", getModuleStates());
-        Logger.recordOutput("rawPose", getPose());
+        SmartDashboard.putNumber("Get Gyro", getGyroYaw().getDegrees());
+        SmartDashboard.putNumber("Get Heading", getHeading().getDegrees());
 
-        Logger.recordOutput("Get Gyro", getGyroYaw().getDegrees());
-        Logger.recordOutput("Get Heading", getHeading().getDegrees());
-        // SmartDashboard.putNumber("Get Gyro", getGyroYaw().getDegrees());
-        // for(SwerveMod mod : mSwerveMods){
-        //     Logger.recordOutput("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
-        //     Logger.recordOutput("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-        //     Logger.recordOutput("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
-
-        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
-        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
-        // }
+        for(SwerveMod mod : mSwerveMods){
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
+        }
     }
 }

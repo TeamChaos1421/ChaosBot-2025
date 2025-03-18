@@ -79,6 +79,14 @@ public final class Constants {
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
+        public static final Translation2d[] moduleTranslations =
+            new Translation2d[] {
+            new Translation2d(trackWidth / 2.0, wheelBase / 2.0),
+            new Translation2d(trackWidth / 2.0, -wheelBase / 2.0),
+            new Translation2d(-trackWidth / 2.0, wheelBase / 2.0),
+            new Translation2d(-trackWidth / 2.0, -wheelBase / 2.0)
+        };
+
         /* Module Gear Ratios */
         public static final double driveGearRatio = chosenModule.driveGearRatio;
         public static final double angleGearRatio = chosenModule.angleGearRatio;
@@ -113,13 +121,13 @@ public final class Constants {
         public static final double angleKF = chosenModule.angleKF;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.012;
+        public static final double driveKP = 2;
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
          /* Heading PID Values */
-        public static final double HeadingKP = 4;
+        public static final double HeadingKP = .5;
         public static final double HeadingKI = 0;
         public static final double HeadingKD = 0;
         public static final double HeadingTolerence = 0;
@@ -193,12 +201,12 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
         //TODO: Must be tuned to specific robot
-        public static final PIDConstants translationPID = new PIDConstants(1, .1, .2);/// All values weree 0. Chnaged to see if the robot moves in automous
-        public static final PIDConstants rotationPID = new PIDConstants(0, 0, 0);
+        public static final PIDConstants translationPID = new PIDConstants(5, 0, 0);/// All values weree 0. Chnaged to see if the robot moves in automous
+        public static final PIDConstants rotationPID = new PIDConstants(5, 0, 0);
 
         //TODO: Must be tuned to specific robot
         public static final double ROBOT_MASS_KG = 56.699;
-        public static final double ROBOT_MOI = 6.883;
+        public static final double ROBOT_MOI = 4.5;
         public static final double WHEEL_COF = 1.2;
 
         public static final ModuleConfig moduleConfig = new ModuleConfig(
