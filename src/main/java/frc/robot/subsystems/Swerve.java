@@ -61,7 +61,7 @@ public class Swerve extends SubsystemBase {
             this::getPose, // Robot pose supplier
             this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                     Constants.AutoConstants.translationPID, // Translation PID constants
                     Constants.AutoConstants.rotationPID // Rotation PID constants
@@ -114,7 +114,7 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
         for(SwerveMod mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
+            mod.setDesiredState(desiredStates[mod.moduleNumber], true);
         }
     }    
 
@@ -178,21 +178,22 @@ public class Swerve extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions()); 
         s_PoseEstimator.updateSwerve(getGyroYaw(), getModulePositions());
-        field.setRobotPose(getPose());
+        // field.setRobotPose(getPose());
 
         Logger.recordOutput("Mystates", getModuleStates());
         Logger.recordOutput("rawPose", getPose());
 
         Logger.recordOutput("Get Gyro", getGyroYaw().getDegrees());
         Logger.recordOutput("Get Heading", getHeading().getDegrees());
-        for(SwerveMod mod : mSwerveMods){
-            Logger.recordOutput("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
-            Logger.recordOutput("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            Logger.recordOutput("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
+        // SmartDashboard.putNumber("Get Gyro", getGyroYaw().getDegrees());
+        // for(SwerveMod mod : mSwerveMods){
+        //     Logger.recordOutput("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
+        //     Logger.recordOutput("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+        //     Logger.recordOutput("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
 
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
-        }
+        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
+        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+        //     // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
+        // }
     }
 }
